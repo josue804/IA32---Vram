@@ -38,7 +38,7 @@ cls:	pushl	%ebp
 
 # movl $COLS, %ecx
   movl $(SCREENBYTES/4), %ecx
-  decl %ecx
+# decl %ecx //last 2 bytes are not written
   movl $video, %edx
   .equ HALF, (DEFAULT_ATTR<<8) | SPACE
   .equ FULL, (HALF<<16) | HALF
@@ -84,7 +84,10 @@ setAttr:pushl	%ebp
 	.globl	outc
 outc:	pushl	%ebp
 	movl	%esp, %ebp
-	# Fill me in!
+	# Fill me in! JV
+
+
+
 	movl	%ebp, %esp
 	popl	%ebp
 	ret
