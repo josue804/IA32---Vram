@@ -34,7 +34,35 @@ attr:	.long	0
 	.globl	cls
 cls:	pushl	%ebp
 	movl	%esp, %ebp
-	# Fill me in!
+	# Fill me in! JV
+
+# movl $COLS, %ecx
+  movl $(SCREENBYTES/4), %ecx
+  decl %ecx
+  movl $video, %edx
+  .equ HALF, (DEFAULT_ATTR<<8) | SPACE
+  .equ FULL, (HALF<<16) | HALF
+# movw $(DEFAULT_ATTR<<8 | SPACE), %ax
+  
+	
+#writes one byte A onto screen
+# movb $'A', video
+
+1:
+
+# movb $SPACE, (%edx)
+# movb $DEFAULT_ATTR, video+1
+# movb $DEFAULT_ATTR, 1(%edx)
+
+# movw %ax, (%edx)
+  movl $FULL, (%edx)
+  addl $4, %edx
+  decl %ecx
+  jnz  1b
+
+
+
+
 	movl	%ebp, %esp
 	popl	%ebp
 	ret

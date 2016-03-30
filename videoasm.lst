@@ -38,42 +38,73 @@
   34              		.globl	cls
   35 0000 55       	cls:	pushl	%ebp
   36 0001 89E5     		movl	%esp, %ebp
-  37              		# Fill me in!
-  38 0003 89EC     		movl	%ebp, %esp
-  39 0005 5D       		popl	%ebp
-  40 0006 C3       		ret
-  41              	
-  42              		# Set the video attribute for characters output using outc.
-  43              		.globl	setAttr
-  44 0007 55       	setAttr:pushl	%ebp
-  45 0008 89E5     		movl	%esp, %ebp
-  46              		# Fill me in!
-  47 000a 89EC     		movl	%ebp, %esp
-  48 000c 5D       		popl	%ebp
-  49 000d C3       		ret
+  37              		# Fill me in! JV
+  38              	
+  39              	# movl $COLS, %ecx
+  40 0003 B9E80300 	  movl $(SCREENBYTES/4), %ecx
+  40      00
+  41 0008 49       	  decl %ecx
+  42 0009 BA000000 	  movl $video, %edx
+  42      00
+  43              	  .equ HALF, (DEFAULT_ATTR<<8) | SPACE
+  44              	  .equ FULL, (HALF<<16) | HALF
+  45              	# movw $(DEFAULT_ATTR<<8 | SPACE), %ax
+  46              	  
+  47              		
+  48              	#writes one byte A onto screen
+  49              	# movb $'A', video
   50              	
-  51              		# Output a single character at the current row and col position
-  52              		# on screen, advancing the cursor coordinates and scrolling the
-  53              		# screen as appropriate.  Special treatment is provided for
-  54              	        # NEWLINE characters, moving the "cursor" to the start of the
-  55              		# "next line".
-  56              		.globl	outc
-  57 000e 55       	outc:	pushl	%ebp
-  58 000f 89E5     		movl	%esp, %ebp
-  59              		# Fill me in!
-  60 0011 89EC     		movl	%ebp, %esp
-  61 0013 5D       		popl	%ebp
-  62 0014 C3       		ret
+  51              	1:
+  52              	
+  53              	# movb $SPACE, (%edx)
+  54              	# movb $DEFAULT_ATTR, video+1
+  55              	# movb $DEFAULT_ATTR, 1(%edx)
+  56              	
+  57              	# movw %ax, (%edx)
+  58 000e C702202E 	  movl $FULL, (%edx)
+  58      202E
+  59 0014 83C204   	  addl $4, %edx
+  60 0017 49       	  decl %ecx
+  61 0018 75F4     	  jnz  1b
+  62              	
   63              	
-  64              		# Output an unsigned numeric value as a sequence of 8 hex digits.
-  65              		.globl	outhex
-  66 0015 55       	outhex:	pushl	%ebp
-  67 0016 89E5     		movl	%esp, %ebp
-  68              		# Fill me in!
-  69 0018 89EC     		movl	%ebp, %esp
-  70 001a 5D       		popl	%ebp
-  71 001b C3       		ret
-  72              	
+  64              	
+  65              	
+  66 001a 89EC     		movl	%ebp, %esp
+  67 001c 5D       		popl	%ebp
+  68 001d C3       		ret
+  69              	
+  70              		# Set the video attribute for characters output using outc.
+  71              		.globl	setAttr
+  72 001e 55       	setAttr:pushl	%ebp
+  73 001f 89E5     		movl	%esp, %ebp
+  74              		# Fill me in!
+  75 0021 89EC     		movl	%ebp, %esp
+  76 0023 5D       		popl	%ebp
+  77 0024 C3       		ret
+  78              	
+  79              		# Output a single character at the current row and col position
+  80              		# on screen, advancing the cursor coordinates and scrolling the
+  81              		# screen as appropriate.  Special treatment is provided for
+  82              	        # NEWLINE characters, moving the "cursor" to the start of the
+  83              		# "next line".
+  84              		.globl	outc
+  85 0025 55       	outc:	pushl	%ebp
+  86 0026 89E5     		movl	%esp, %ebp
+  87              		# Fill me in!
+  88 0028 89EC     		movl	%ebp, %esp
+  89 002a 5D       		popl	%ebp
+  90 002b C3       		ret
+  91              	
+  92              		# Output an unsigned numeric value as a sequence of 8 hex digits.
+  93              		.globl	outhex
+  94 002c 55       	outhex:	pushl	%ebp
+  95 002d 89E5     		movl	%esp, %ebp
+  96              		# Fill me in!
+  97 002f 89EC     		movl	%ebp, %esp
+  98 0031 5D       		popl	%ebp
+  99 0032 C3       		ret
+ 100              	
 DEFINED SYMBOLS
           videoasm.s:2      *ABS*:0000000000000019 ROWS
           videoasm.s:3      *ABS*:0000000000000050 COLS
@@ -88,8 +119,10 @@ DEFINED SYMBOLS
           videoasm.s:27     .data:0000000000000fa4 col
           videoasm.s:28     .data:0000000000000fa8 attr
           videoasm.s:35     .text:0000000000000000 cls
-          videoasm.s:44     .text:0000000000000007 setAttr
-          videoasm.s:57     .text:000000000000000e outc
-          videoasm.s:66     .text:0000000000000015 outhex
+          videoasm.s:43     *ABS*:0000000000002e20 HALF
+          videoasm.s:44     *ABS*:000000002e202e20 FULL
+          videoasm.s:72     .text:000000000000001e setAttr
+          videoasm.s:85     .text:0000000000000025 outc
+          videoasm.s:94     .text:000000000000002c outhex
 
 NO UNDEFINED SYMBOLS
