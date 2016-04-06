@@ -34,7 +34,6 @@ attr:	.long	0
 	.globl	cls
 cls:	pushl	%ebp
 	movl	%esp, %ebp
-	# Fill me in! JV
 
 # movl $COLS, %ecx
   movl $(SCREENBYTES/4), %ecx
@@ -84,7 +83,6 @@ setAttr:pushl	%ebp
 	.globl	outc
 outc:	pushl	%ebp
 	movl	%esp, %ebp
-	# Fill me in! JV
 
 
 
